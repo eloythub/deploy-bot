@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DEFAULT_TAG="latest"
+GCLOUD_PROJECT_ID=$1
+
+DOCKER_LOCAL_IMAGE="eloyt/deployer-bot"
+DOCKER_GCLOUD_IMAGE="asia.gcr.io/$GCLOUD_PROJECT_ID/deployer-bot"
+
+docker build . -f Dockerfile -t $DOCKER_LOCAL_IMAGE
+
+docker tag $DOCKER_LOCAL_IMAGE $DOCKER_GCLOUD_IMAGE:$DEFAULT_TAG
+
+gcloud docker -- push $DOCKER_GCLOUD_IMAGE:$DEFAULT_TAG
